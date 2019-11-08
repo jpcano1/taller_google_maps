@@ -9,6 +9,12 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+/**
+ * Esta clase representa los objetos y metodos basicos
+ * necesarios para la realizacion de talleres y proyectos
+ * que tengan que ver con dibujo de mapas
+ * @author Juan Pablo Cano
+ */
 public class Maps extends MapView
 {
     //-------------------------
@@ -16,17 +22,18 @@ public class Maps extends MapView
     //------------------------
 
     /**
-     *
+     * Mapa cargado de JxMaps
      */
     private Map map;
 
     /**
-     *
+     * Tabla de Hash que contiene las universidades en llaves
+     * y las Latitudes y Longitudes en Valor
      */
     private HashTable<String, LatLng> table;
 
     /**
-     *
+     * Arreglo de latitudes y longitudes
      */
     private LatLng[] locs;
 
@@ -77,36 +84,14 @@ public class Maps extends MapView
                 {
                     map = getMap();
                     initMap(map);
-
-//                    Marker marker = new Marker(map);
-//                    marker.setPosition(map.getCenter());
-//
-//                    InfoWindow infoWindow = new InfoWindow(map);
-//                    infoWindow.setContent("Hola Uniandes");
-//                    infoWindow.open(map, new LatLng(4.6012, -74.0657));
-
-
-                    int i = 0;
-                    for(String universidad: table)
-                    {
-                        LatLng loc = table.get(universidad);
-                        Circle circle = new Circle(map);
-                        circle.setCenter(loc);
-                        circle.setOptions(co);
-                        circle.setRadius(10);
-                        LatLng loc = table.get(universidad);
-                        Marker marker = new Marker(map);
-                        marker.setPosition(loc);
-                        i++;
-                    }
                 }
             }
         });
     }
 
     /**
-     *
-     * @param map
+     * Metodo que se encarga de dibujar un marcador de posicion
+     * @param map Lienzo donde se colocará el marcador
      */
     public void drawMarker(Map map)
     {
@@ -123,8 +108,9 @@ public class Maps extends MapView
     }
 
     /**
-     *
-     * @param map
+     * Metodo que se encarga de dibujar una linea con
+     * el comportamiento de un poligono
+     * @param map Lienzo donde se colocarán las lineas
      */
     public void drawPolygon(Map map)
     {
@@ -134,6 +120,7 @@ public class Maps extends MapView
         // Opacidad de relleno
         po.setFillOpacity(0.35);
 
+        // Los dos extremos del poligono
         LatLng[] path = new LatLng[2];
         int i = 0;
 
@@ -141,37 +128,58 @@ public class Maps extends MapView
         {
             path[0] = locs[i];
             path[1] = locs[i+1];
+            // Objeto de latitud y longitud
             LatLng loc = table.get(universidad);
+            // Marcador
             Marker marker = new Marker(map);
             marker.setPosition(loc);
 
+            // Ventana de informacion
             InfoWindow infoWindow = new InfoWindow(map);
             infoWindow.setContent("Hola "+ universidad);
             infoWindow.open(map, marker);
 
+            // Poligono
             Polygon polygon = new Polygon(map);
+            // Se le agrega el camino, debe ser un arreglo de LatLng
             polygon.setPath(path);
+            // Se colocan las opciones
             polygon.setOptions(po);
             i++;
         }
     }
 
+    /**
+     * Método que se encarga de dibujar los circulos
+     * @param map Lienzo donde se colocarán los circulos
+     */
     public void drawCircle(Map map)
     {
         // Las opciones de creación del círculo
         CircleOptions co = new CircleOptions();
-
         // Opacidad de relleno
         co.setFillOpacity(0.35);
-
         // Ancho de línea
         co.setStrokeWeight(1);
-
         // Opacidad de linea
         co.setStrokeOpacity(0.2);
-
         // Color de linea
         co.setStrokeColor("00FF00");
+
+        for(String universidad: table)
+        {
+            // Objeto de latitud y longitud
+            LatLng loc = table.get(universidad);
+
+            // Creación del círculo
+            Circle circle = new Circle(map);
+            // Centro
+            circle.setCenter(loc);
+            // Opciones
+            circle.setOptions(co);
+            // Radio
+            circle.setRadius(10);
+        }
     }
 
     /**
@@ -205,6 +213,10 @@ public class Maps extends MapView
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Main method
+     * @param args Parametros no necesarios
+     */
     public static void main(String[] args)
     {
         Maps maps = new Maps();
