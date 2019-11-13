@@ -84,6 +84,11 @@ public class Maps extends MapView
                 {
                     map = getMap();
                     initMap(map);
+                    /*
+                     * Puede cambiar la funcion por otra
+                     * Por ejemplo drawPolygon(Map map)
+                     */
+                    drawCircle(map);
                 }
             }
         });

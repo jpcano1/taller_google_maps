@@ -2,8 +2,17 @@ package model.data_structures;
 
 import java.util.Iterator;
 
+/**
+ * @author Juan Pablo Cano
+ * @param <T> The generic type
+ */
 public class Stack<T extends Comparable<T>>
 {
+    /**
+     * @author Juan Pablo Cano
+     * The Node class
+     * @param <T> The generic Type
+     */
     @SuppressWarnings("hiding")
     public class Node<T extends Comparable<T>>
     {
