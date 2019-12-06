@@ -7,7 +7,6 @@
     * JxMaps-mac.jar
     * JxMaps-win.jar
 * JxMapsdemo.jar
-* license.jar
 ****
 ### Antes de ejecutar
 * Pueden descargar las librerías de este [link](https://www.teamdev.com/jxmaps)
