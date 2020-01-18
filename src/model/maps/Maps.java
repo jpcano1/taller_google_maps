@@ -42,7 +42,7 @@ public class Maps extends MapView
     //------------------------
 
     /**
-     *
+     * Constructor de la clase de mapas
      */
     public Maps()
     {
