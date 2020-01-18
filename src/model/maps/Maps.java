@@ -83,12 +83,13 @@ public class Maps extends MapView
                 if(status == MapStatus.MAP_STATUS_OK)
                 {
                     map = getMap();
-                    initMap(map);
+                    initMap();
+
                     /*
                      * Puede cambiar la funcion por otra
-                     * Por ejemplo drawPolygon(Map map)
+                     * Por ejemplo drawPolygon()
                      */
-                    drawCircle(map);
+                    drawPolylines();
                 }
             }
         });
@@ -96,9 +97,8 @@ public class Maps extends MapView
 
     /**
      * Metodo que se encarga de dibujar un marcador de posicion
-     * @param map Lienzo donde se colocará el marcador
      */
-    public void drawMarker(Map map)
+    public void drawMarker()
     {
         for(String universidad: table)
         {
@@ -115,11 +115,12 @@ public class Maps extends MapView
     /**
      * Metodo que se encarga de dibujar una linea con
      * el comportamiento de un poligono
-     * @param map Lienzo donde se colocarán las lineas
      */
-    public void drawPolygon(Map map)
+    public void drawPolygon()
     {
         PolygonOptions po = new PolygonOptions();
+        // Grosor de la línea
+        po.setStrokeWeight(1);
         // Color de relleno
         po.setFillColor("#FF0000");
         // Opacidad de relleno
@@ -156,9 +157,8 @@ public class Maps extends MapView
 
     /**
      * Método que se encarga de dibujar los circulos
-     * @param map Lienzo donde se colocarán los circulos
      */
-    public void drawCircle(Map map)
+    public void drawCircle()
     {
         // Las opciones de creación del círculo
         CircleOptions co = new CircleOptions();
@@ -188,10 +188,51 @@ public class Maps extends MapView
     }
 
     /**
-     * Inicialia el mapa de JxMaps
-     * @param map El mapa que será inicializado
+     * Método que se encarga de dibujar líneas
      */
-    public void initMap(Map map)
+    public void drawPolylines()
+    {
+        // Las opciones de creación del círculo
+        PolylineOptions po = new PolylineOptions();
+        // Grosor de la línea
+        po.setStrokeWeight(1);
+        // Opacidad de la línea
+        po.setStrokeOpacity(1);
+
+        // Los dos extremos del poligono
+        LatLng[] path = new LatLng[2];
+        int i = 0;
+
+        for(String universidad: table)
+        {
+            path[0] = locs[i];
+            path[1] = locs[i+1];
+
+            // Objeto de latitud y longitud
+            LatLng loc = table.get(universidad);
+            // Marcador
+            Marker marker = new Marker(map);
+            marker.setPosition(loc);
+
+            // Ventana de informacion
+            InfoWindow infoWindow = new InfoWindow(map);
+            infoWindow.setContent("Hola "+ universidad);
+            infoWindow.open(map, marker);
+
+            // Línea que será creada
+            Polyline polyline = new Polyline(map);
+            // Se le coloca el camino a la línea
+            polyline.setPath(path);
+            // Se le colocan las opciones a la línea
+            polyline.setOptions(po);
+            i++;
+        }
+    }
+
+    /**
+     * Inicialia el mapa de JxMaps
+     */
+    public void initMap()
     {
         // Las opciones del mapa
         MapOptions mapOptions = new MapOptions();
